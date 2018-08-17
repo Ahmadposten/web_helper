@@ -41,8 +41,10 @@ func filterIps(ip string, source io.Reader, dest io.Writer) error {
 		rec, err := parseRecord(stringRecord)
 
 		if err != nil {
-			return err
+			logError(err.Error())
+			continue
 		}
+
 		if network.Contains(rec.Ip) {
 			_, err := io.WriteString(dest, fmt.Sprintf("%s\n", stringRecord))
 			if err != nil {

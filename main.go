@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"io"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -10,7 +11,17 @@ import (
 
 const (
 	DEFAULT_REMOTE_FILE = "https://s3.amazonaws.com/syseng-challenge/public_access.log.txt"
+
 )
+var ErrorStream *log.Logger
+
+func init(){
+	ErrorStream = log.New(os.Stderr, "", 0)
+}
+
+func logError(errMessage string){
+	ErrorStream.Printf("Error: %s ", errMessage)
+}
 
 func getRemoteFile(uri string) (io.Reader, error) {
 	resp, err := http.Get(uri)
@@ -46,7 +57,7 @@ func main() {
 	flag.Parse()
 
 	if len(*ip) == 0 {
-		log.Println("Ip needs to be specified")
+		logError("Ip needs to be specified")
 		flag.Usage()
 		os.Exit(1)
 	}
@@ -63,7 +74,7 @@ func main() {
 	reader, err := getFile(uri, from)
 
 	if err != nil {
-		log.Printf("Could not fetch file: %s ", err.Error())
+		logError(fmt.Sprintf("Could not fetch file: %s ", err.Error()))
 		os.Exit(1)
 	}
 
@@ -72,14 +83,14 @@ func main() {
 	if len(*destination) > 0 {
 		writer, err = os.Create(*destination)
 		if err != nil {
-			log.Printf("Could not create output file ! %s", err.Error())
+			logError(fmt.Sprintf("Could not create output file ! %s", err.Error()))
 			os.Exit(1)
 		}
 		defer writer.Close()
 	}
 
 	if err := filterIps(*ip, reader, writer); err != nil {
-		log.Printf("Error running your query : %s", err.Error())
+		logError(fmt.Sprintf("Error running your query : %s", err.Error()))
 		os.Exit(1)
 	}
 }
