@@ -1,12 +1,13 @@
 package main
 
 import (
-	"io"
-	"fmt"
 	"bufio"
+	"fmt"
+	"io"
 	"net"
 	"strings"
 )
+
 // This contains the needed queries
 // Since the file is a log file, it might be too large to fit in memory
 // Thus we need to read it and filter on the fly keeping

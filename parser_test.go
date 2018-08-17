@@ -2,21 +2,21 @@
 package main
 
 import (
-	"testing"
-	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"net"
+	"testing"
 )
 
-func TestParseRecord(t *testing.T){
+func TestParseRecord(t *testing.T) {
 	sadScenarioInputs := []string{
 		"",
 		"12.2.3.4",
 	}
 
-	happyScenarioInputs := []struct{
+	happyScenarioInputs := []struct {
 		log string
-		ip string
+		ip  string
 	}{
 		{
 			"1.2.3.4 -- whatever [whatever] <whatever>",
