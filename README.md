@@ -35,3 +35,6 @@ use the one compatible with your box.
 1. You need to run `go get github.com/ahmadposten/web_helper`
 1. run `go build -o web_helper *.go`
 1. You will have a binary named web_helper which can be used normally
+
+### Testing
+run `go test -v`
